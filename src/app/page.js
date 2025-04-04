@@ -1,10 +1,13 @@
+import Form from "@/components/Form";
+import FormAgain from "@/components/FormAgain";
 import User from "@/components/User";
-import Image from "next/image";
 
 export default function Home() {
   return (
     <>
-      <User/>
+      <User />
+      {/* <FormAgain/> */}
+      <Form />
     </>
   );
 }

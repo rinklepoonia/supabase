@@ -19,6 +19,7 @@ const User = () => {
 
     return (
         <div className="container p-5 max-w-[1240px] mx-auto">
+
             <ul>
                 {userData.map((obj, i) => (
                     <div key={i} className="flex  gap-10">
@@ -28,6 +29,7 @@ const User = () => {
                     </div>
                 ))}
             </ul>
+         
         </div>
     );
 };
