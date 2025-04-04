@@ -11,6 +11,24 @@ const Form = () => {
         //     return;
         // }
         try {
+            //  Check if email already exists
+            const { data: existingUsers, error: selectError } = await supabase
+                .from("user")
+                .select("email")
+                .eq("email", email);
+
+            // if (selectError) {
+            //     console.error("Error checking email:", selectError);
+            //     alert("Something went wrong while checking email.");
+            //     return;
+            // }
+
+            if (existingUsers.length > 0) {
+                alert("This email is already registered. Please use a different email.");
+                return;
+            }
+
+
             const { error } = await supabase.from("user").insert([{ name, LastName, email }]);
             if (error) {
                 console.error("Supabase Error:", error);
