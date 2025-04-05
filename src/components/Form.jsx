@@ -6,22 +6,12 @@ const Form = () => {
     async function handleSubmit(e) {
         e.preventDefault();
         const { name, email, LastName } = formData;
-        // if (!name || !email || !LastName) {
-        //     alert("Please Fill Input");
-        //     return;
-        // }
         try {
             //  Check if email already exists
             const { data: existingUsers, error: selectError } = await supabase
                 .from("user")
                 .select("email")
                 .eq("email", email);
-
-            // if (selectError) {
-            //     console.error("Error checking email:", selectError);
-            //     alert("Something went wrong while checking email.");
-            //     return;
-            // }
 
             if (existingUsers.length > 0) {
                 alert("This email is already registered. Please use a different email.");
