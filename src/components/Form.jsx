@@ -32,11 +32,13 @@ const Form = () => {
             alert("Something went wrong. Check the console.");
         }
     }
+ 
+
     return (
         <div className="container mx-auto pt-9 max-w-[900px]">
             <h1 className="text-black text-4xl pb-6 font-semibold text-center">User Form</h1>
             <form onSubmit={handleSubmit}>
-                <div className="flex gap-4">
+                <div className="flex flex-col gap-4">
                     <input
                         type="text"
                         placeholder="Name"
@@ -66,12 +68,21 @@ const Form = () => {
                 </div>
                 <button
                     type="submit"
-                    className="py-2 px-4 bg-green-600 rounded-lg text-white mt-6"
+                    className="py-2 px-4 bg-blue-600 rounded-lg text-white mt-6"
                 >
                     Submit
                 </button>
             </form>
-        </div>
+            {/* <div className="pt-6">
+                <button
+                    onClick={() => deleteUser(3)}
+                    className="py-2 px-4 bg-red-600 rounded-lg text-white"
+                >
+                    Delete User with ID
+                </button>
+            </div> */}
+
+        </div >
     );
 };
 export default Form;
