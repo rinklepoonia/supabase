@@ -4,10 +4,7 @@ import { supabase } from "../../utils/supabase";
 
 const User = () => {
     const [userData, setUserData] = useState([]);
-    const [editUserId, setEditUserId] = useState(null);
-    const [editName, setEditName] = useState("");
-    const [editEmail, setEditEmail] = useState("");
-    const [editLastName, setEditLastName] = useState("");
+    const [editData, setEditData] = useState({ id: null, name: "", LastName: "", email: "" })
 
     useEffect(() => {
         detail();
@@ -41,19 +38,23 @@ const User = () => {
         }
     }
 
-    async function updateUser(id) {
+    async function updateUser() {
         try {
             const { data, error } = await supabase
                 .from("user")
-                .update({ name: editName, email: editEmail, LastName: editLastName })
-                .eq("id", id);
+                .update({
+                    name: editData.name,
+                    email: editData.email,
+                    LastName: editData.LastName
+                })
+                .eq("id", editData.id);
 
             if (error) {
                 console.error("Update Error:", error);
                 alert("Failed to update user.");
             } else {
                 alert("User updated successfully!");
-                setEditUserId(null);
+                setEditData({ id: null, name: "", LastName: "", email: "" });
                 detail();
             }
         } catch (error) {
@@ -63,17 +64,16 @@ const User = () => {
     }
 
     function startEdit(user) {
-        setEditUserId(user.id);
-        setEditName(user.name);
-        setEditEmail(user.email);
-        setEditLastName(user.LastName);
+        setEditData({
+            id: user.id,
+            name: user.name || "",
+            LastName: user.LastName || "",
+            email: user.email || ""
+        });
     }
 
     function cancelEdit() {
-        setEditUserId(null);
-        setEditName("");
-        setEditEmail("");
-        setEditLastName("");
+        setEditData({ id: "null", name: "", email: "", LastName: "" });
     }
 
     return (
@@ -81,38 +81,38 @@ const User = () => {
             <ul className="flex flex-col gap-5">
                 {userData.map((user, i) => (
                     <div key={i} className="grid grid-cols-5 items-center gap-5">
-                        {editUserId === user.id ? (
+                        {editData.id === user.id ? (
                             <>
                                 <input
                                     type="text"
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
+                                    value={editData.name}
+                                    onChange={(e) => setEditData({ ...editData, name: e.target.value })}
                                     className="border p-2 rounded"
                                     placeholder="Edit Name"
                                 />
                                 <input
                                     type="text"
-                                    value={editLastName}
-                                    onChange={(e) => setEditLastName(e.target.value)}
+                                    value={editData.LastName}
+                                    onChange={(e) => setEditData({ ...editData, LastName: e.target.value })}
                                     className="border p-2 rounded"
                                     placeholder="Edit LastName"
                                 />
                                 <input
                                     type="email"
-                                    value={editEmail}
-                                    onChange={(e) => setEditEmail(e.target.value)}
+                                    value={editData.email}
+                                    onChange={(e) => setEditData({ ...editData, email: e.target.value })}
                                     className="border p-2 rounded"
                                     placeholder="Edit Email"
                                 />
                                 <button
                                     onClick={() => updateUser(user.id)}
-                                    className="py-2 px-4 bg-green-600 text-white rounded-lg"
+                                    className="py-2 px-4 bg-green-600 text-white rounded-lg cursor-pointer"
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={cancelEdit}
-                                    className="py-2 px-4 bg-gray-500 text-white rounded-lg"
+                                    className="py-2 px-4 bg-gray-500 text-white rounded-lg cursor-pointer"
                                 >
                                     Cancel
                                 </button>
@@ -124,13 +124,13 @@ const User = () => {
                                 <li className="max-w-[150px] text-ellipsis overflow-hidden">{user.email}</li>
                                 <button
                                     onClick={() => deleteUser(user.id)}
-                                    className="py-2 px-4 bg-red-600 text-white rounded-lg"
+                                        className="py-2 px-4 bg-red-600 text-white rounded-lg cursor-pointer"
                                 >
                                     Delete
                                 </button>
                                 <button
                                     onClick={() => startEdit(user)}
-                                    className="py-2 px-4 bg-blue-600 text-white rounded-lg"
+                                    className="py-2 px-4 bg-blue-600 text-white rounded-lg cursor-pointer"
                                 >
                                     Edit
                                 </button>
