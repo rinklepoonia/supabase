@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <User />
       <Form />
-      <Delete />
+      {/* <Delete /> */}
     </>
   );
 }
